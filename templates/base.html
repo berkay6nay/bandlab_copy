@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <title>BandCamp</title>
+    </head>
+    <body>
+
+        {% if user.is_authenticated %}
+
+        <p>Hello {{user.username}}</p>
+
+        {% endif %}
+
+
+
+        {% block content %}
+
+
+        {% endblock content %}
+    </body>
+</html>
