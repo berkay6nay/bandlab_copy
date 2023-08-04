@@ -8,6 +8,7 @@ class ArtistSignUpView(CreateView):
     form_class = ArtistSignupForm
     success_url = reverse_lazy("login")
     template_name = "registration/signup_artist.html"
+    
 
     def form_valid(self , form):
         form.instance.is_artist = True
