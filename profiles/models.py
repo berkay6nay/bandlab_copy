@@ -4,16 +4,30 @@ from user.models import User
 class Album(models.Model):
     title = models.TextField(max_length=50)
     artist = models.ForeignKey(User , on_delete=models.CASCADE)
+    album_pic = models.ImageField(null=True , blank=True , upload_to="images/")
+    label = models.TextField(max_length= 30 , null=True , blank=True)
+    year = models.IntegerField(null=True , blank=True)
+    genre = models.CharField(max_length=30 , null=True , blank=True)
 
 
 class ArtistProfile(models.Model):
-    artist = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_artist = models.OneToOneField(User, on_delete=models.CASCADE)
     artist_bio = models.TextField(max_length=100)
-    name = models.TextField(max_length=50)
+    artist_name = models.TextField(max_length=50)
+    artist_pic = models.ImageField(null=True , blank=True ,upload_to="images/" )
 
+    def __str__(self):
+        return str(self.user)
 
 class UserProfile(models.Model):
     name = models.TextField(max_length=50)
+    user_regular = models.OneToOneField(User , on_delete=models.CASCADE , null=True)
+    user_pic = models.ImageField(blank=True , null=True , upload_to="images/")
+
+
+
+
+    
 
 
 # Create your models here.

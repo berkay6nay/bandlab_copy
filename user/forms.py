@@ -10,11 +10,11 @@ class RegularSignUpForm(UserCreationForm):
         fields = UserCreationForm.Meta.fields
 
 class ArtistSignupForm(UserCreationForm):
-    artist_or_band_name = forms.CharField(max_length=50)
+    ##artist_or_band_name = forms.CharField(max_length=50)
 
     class Meta:
         model = User
-        fields = UserCreationForm.Meta.fields + ("artist_or_band_name" , )
+        fields = UserCreationForm.Meta.fields ##+ ("artist_or_band_name" , )
         
 
 

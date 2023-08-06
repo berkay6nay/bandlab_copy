@@ -9,8 +9,35 @@
         {% if user.is_authenticated %}
 
         <p>Hello {{user.username}}</p>
-        <p>{{user.is_artist}}</p>
+        <p>Is artist ? {{user.is_artist}}</p>
         <p><a href="{% url 'logout' %}">Log out</a></p>
+         
+        {% if user.is_artist %}
+
+        {% if user.artistprofile %}
+
+        <a href="{% url 'artist_profile_page' user.artistprofile.id %}">Your profile</a>
+        
+
+            {% else %}
+
+
+                <a href="{% url 'create_artist_profile_page'%}">You do not have a profile yet , let's create one and build your profile</a>
+                <p>Lets create your profile</p>
+
+                {% endif %}
+
+
+                {% else %}
+
+
+
+
+        {% endif %}
+        
+
+
+
 
         {% else %}
 

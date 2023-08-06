@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% if user.is_authenticated%}
+{% if user.is_artist %}
+{% block content %}
+
+<p>Create Your Profile</p>
+
+<form action = "" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{form.as_p}}   
+    <button type="submit" class="btn btn-primary">Create Your Profile</button>
+  </form>
+
+
+{% endblock content %}
+{%endif%}
+{% endif%}
