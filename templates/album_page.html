@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+
+<p>{{album.artist}}</p>
+<p>{{album.title}}</p>
+<p>{{album.genre}}</p>
+<p>{{album.label}}</p>
+<p>{{album.year}}</p>
+<img src="{{ album.album_pic.url }}">
+
+
+{% endblock content%}

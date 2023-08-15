@@ -2,8 +2,46 @@
 
 {% block content %}
 
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="row">
+                {% for album in albums %}
+                    <div class="col-md-4 mb-4">
+                        <a href="{% url 'album_page' album.id %}">
+                            <img src="{{ album.album_pic.url }}" class="custom-image album-image" width="300" height="300" alt="{{ album.title }}">
+                        </a>
+                        <a href="{% url 'album_page' album.id %}">
+                            <p class="album-title">{{ album.title }}</p>
+                        </a>
+                        
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <a href="{% url 'create_album' %}" class="btn btn-primary">Add Album</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 text-center">
+            <img src="{{ page_user.artist_pic.url }}" class="custom-image rounded-circle" width="150" height="150">
+            <p>{{ page_user.artist_name }}</p>
+            <p>{{ page_user.artist_bio }}</p>
+        </div>
+    </div>
+</div>
 
+<style>
+    .album-image {
+        width: 100%;
+        height: auto;
+    }
 
-
+    .album-title {
+        margin-top: 10px;
+        font-weight: bold;
+    }
+</style>
 
 {% endblock content %}

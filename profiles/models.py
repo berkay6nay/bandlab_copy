@@ -11,7 +11,7 @@ class Album(models.Model):
 
 
 class ArtistProfile(models.Model):
-    user_artist = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     artist_bio = models.TextField(max_length=100)
     artist_name = models.TextField(max_length=50)
     artist_pic = models.ImageField(null=True , blank=True ,upload_to="images/" )
