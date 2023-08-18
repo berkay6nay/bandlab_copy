@@ -5,8 +5,9 @@
 
 <div class="container">
     <div class="d-flex justify-content-center" >
-      <form method="post" >
+      <form method="post" enctype="multipart/form-data" >
         {% csrf_token %}
+        {{form.media}}
         {{form|crispy}}
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>

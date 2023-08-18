@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="row">
+    {% for album in albums %}
+        <div class="col-md-4 mb-4">
+            <a href="{% url 'album_page' album.id %}">
+                <img src="{{ album.album_pic.url }}" class="custom-image album-image" width="300" height="300" alt="{{ album.title }}">
+            </a>
+            
+            <div class="album-details">
+                <a href="{% url 'album_page' album.id %}">
+                    <p class="album-title">{{ album.title }}</p>
+                </a>
+                <div class="album-actions">
+                    <a class="edit-link" href="{% url 'edit_album' album.id %}">Edit Album</a>
+                    <a class="delete-link" href="{% url 'delete_album' album.id %}" > Delete Album</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+<div class="row">
+    <div class="col-md-12 text-center">
+        <a href="{% url 'create_album' %}" class="btn btn-primary">Add Album</a>
+    </div>
+</div>
+</div>
+
+<style>
+    .album-image {
+        width: 100%;
+        height: auto;
+    }
+
+    .album-title {
+        margin-top: 10px;
+        font-weight: bold;
+    }
+    .album-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.album-actions {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.edit-link,
+.delete-link {
+    color: #007bff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.edit-link:hover,
+.delete-link:hover {
+    text-decoration: underline;
+}
+</style>
+
+{% endblock content%}

@@ -8,9 +8,11 @@
             <div class="row">
                 {% for album in albums %}
                     <div class="col-md-4 mb-4">
+                        {% if album.album_pic %}
                         <a href="{% url 'album_page' album.id %}">
                             <img src="{{ album.album_pic.url }}" class="custom-image album-image" width="300" height="300" alt="{{ album.title }}">
                         </a>
+                        {% endif %}
                         <a href="{% url 'album_page' album.id %}">
                             <p class="album-title">{{ album.title }}</p>
                         </a>
@@ -19,15 +21,23 @@
                 {% endfor %}
             </div>
             <div class="row">
-                <div class="col-md-12 text-center">
-                    <a href="{% url 'create_album' %}" class="btn btn-primary">Add Album</a>
-                </div>
+                
             </div>
         </div>
         <div class="col-md-3 text-center">
             <img src="{{ page_user.artist_pic.url }}" class="custom-image rounded-circle" width="150" height="150">
             <p>{{ page_user.artist_name }}</p>
             <p>{{ page_user.artist_bio }}</p>
+
+            {% if user.artistprofile.id ==  artistprofile.id %}
+            
+            <a href="{% url 'edit_artist_profile' artistprofile.id %}"><p>Edit Your Profile</p></a>
+            <p>page_user_id = {{page_user.id}}</p>
+            <p>artistprofile_id = {{artistprofile.id}}</p>
+            <a href="{% url 'disco_detail' artistprofile.id %}">Edit Your Discography</a>
+
+            {% endif %}
+
         </div>
     </div>
 </div>

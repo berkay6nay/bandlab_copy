@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content%}
+
+<form method="post">
+    {% csrf_token %}
+    {{form.media}}
+    {{form|crispy}}
+    <button>Submit Changes</button>
+    
+
+</form>
+
+
+
+{% endblock content %}

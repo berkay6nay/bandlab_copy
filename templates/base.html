@@ -37,6 +37,9 @@ crossorigin="anonymous">
                             <span class="nav-link">Is artist? {{ user.is_artist }}</span>
                         </li>
                         <li class="nav-item">
+                            <span class="nav-link">Logged in as {{user}}</span>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{% url 'logout' %}">Log out</a>
                         </li>
                         {% if user.is_artist %}
@@ -65,7 +68,7 @@ crossorigin="anonymous">
     
     <div class="container">
         {% block content %}
-        
+
         {% endblock content %}
     </div>
     

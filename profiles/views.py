@@ -1,5 +1,6 @@
+from typing import Any, Dict
 from django.shortcuts import render , get_object_or_404
-from django.views.generic import TemplateView , DetailView , CreateView
+from django.views.generic import TemplateView , DetailView , CreateView , UpdateView , DeleteView
 from django.urls import reverse_lazy
 from .models import ArtistProfile , Album
 
@@ -21,10 +22,6 @@ class ArtistProfilePageView(DetailView):
         context['albums'] = albums
         
         return context
-
-
-    
-
 
 class CreateArtistProfilePageView(CreateView):
     model = ArtistProfile
@@ -50,6 +47,7 @@ class AlbumPageView(DetailView):
 class CreateAlbumView(CreateView):
     model = Album 
     template_name = "create_album.html"
+    success_url = reverse_lazy("home")
 
     fields = ["album_pic" , "title" , "label" , "year" , "genre"]
 
@@ -58,13 +56,40 @@ class CreateAlbumView(CreateView):
         return super().form_valid(form)
     
 
+class EditArtistProfileView(UpdateView):
+    model  = ArtistProfile
+    template_name = "edit_artist_profile.html"
+    fields = ["artist_bio" , "artist_pic"]
+    success_url = reverse_lazy("home")
+
+
+class DiscoDetailView(DetailView):
     
-       
+    model = ArtistProfile
+    template_name = "edit_disco.html"
 
+    def get_context_data(self , *args , **kwargs):
 
-
+        context = super(DiscoDetailView , self).get_context_data()
+        page_user = get_object_or_404(ArtistProfile , id = self.kwargs["pk"])
+        user = self.object.user
+        albums = Album.objects.filter(artist = user)
+        context["page_user"] = page_user
+        context['albums'] = albums
+        
+        return context
     
+class EditAlbumView(UpdateView):
+    model = Album
+    template_name = "edit_album.html"
+    fields = ["album_pic" , "title" , "label" , "year" , "genre"]
+    success_url = reverse_lazy("home")
 
+class DeleteAlbumView(DeleteView):
+    model = Album
+    template_name = "delete_album.html"
+
+    success_url = reverse_lazy("home")
 
 
 
