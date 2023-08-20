@@ -2,7 +2,7 @@ from typing import Any, Dict
 from django.shortcuts import render , get_object_or_404
 from django.views.generic import TemplateView , DetailView , CreateView , UpdateView , DeleteView
 from django.urls import reverse_lazy
-from .models import ArtistProfile , Album
+from .models import ArtistProfile , Album , UserProfile
 
 class HomePageView(TemplateView):
     template_name = "home.html"
@@ -88,9 +88,27 @@ class EditAlbumView(UpdateView):
 class DeleteAlbumView(DeleteView):
     model = Album
     template_name = "delete_album.html"
+    success_url = reverse_lazy("home")
 
+class CreateUserProfileView(CreateView):
+    model = UserProfile
+
+    fields = [
+        "name",
+        "user_pic"
+    ]
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+
+    template_name = "create_user_profile.html"
     success_url = reverse_lazy("home")
 
 
+class UserProfilePageView(DetailView):
+    model = UserProfile
+    template_name = "user_profile_page.html"
 
 # Create your views here.

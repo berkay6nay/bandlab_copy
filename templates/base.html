@@ -36,9 +36,22 @@ crossorigin="anonymous">
                         <li class="nav-item">
                             <span class="nav-link">Is artist? {{ user.is_artist }}</span>
                         </li>
+                        
+                        {% if user.is_artist %}
                         <li class="nav-item">
-                            <span class="nav-link">Logged in as {{user}}</span>
+                            <span class="nav-link">You are {{user.artistprofile.artist_name}}</span>
                         </li>
+                        {% else %}
+
+                        <li class="nav-item">
+                            <span class="nav-link">You are {{user.userprofile.name}}</span>
+                        </li>
+
+                        {% endif %}
+                        
+                        
+                        
+                        
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'logout' %}">Log out</a>
                         </li>
@@ -47,12 +60,27 @@ crossorigin="anonymous">
                                 <li class="nav-item">
                                     <a class="nav-link" href="{% url 'artist_profile_page' user.artistprofile.id %}">Your profile</a>
                                 </li>
-                            {% else %}
+                                {% else %}
                                 <li class="nav-item">
                                     <a class="nav-link" href="{% url 'create_artist_profile_page' %}">Create Profile</a>
                                 </li>
+                                {% endif %}
                             {% endif %}
+                        {% if user.is_artist == False %}
+                                {% if user.userprofile %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'user_profile_page' user.userprofile.id %}">Your profile</a>
+                                </li>
+
+                                {% else %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'create_user_profile_page' %}">Create Profile</a>
+                                </li>
+                                {% endif %}
+
                         {% endif %}
+                        
+                        
                     {% else %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'login' %}">Login</a>

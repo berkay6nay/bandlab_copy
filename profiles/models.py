@@ -21,8 +21,9 @@ class ArtistProfile(models.Model):
 
 class UserProfile(models.Model):
     name = models.TextField(max_length=50)
-    user_regular = models.OneToOneField(User , on_delete=models.CASCADE , null=True)
-    user_pic = models.ImageField(blank=True , null=True , upload_to="images/")
+    user = models.OneToOneField(User , on_delete=models.CASCADE , null=True)
+    user_pic = models.ImageField(blank=True , null=True , upload_to="images/" , editable=True)
+    
 
 
 

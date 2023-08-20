@@ -8,7 +8,9 @@ class RegularSignUpForm(UserCreationForm):
     class Meta:
         model = User
         fields = UserCreationForm.Meta.fields
-
+        labels = {
+            'username' : 'Username'
+        }
 class ArtistSignupForm(UserCreationForm):
     
 
@@ -16,7 +18,7 @@ class ArtistSignupForm(UserCreationForm):
         model = User
         fields = UserCreationForm.Meta.fields 
         labels = {
-            'username' : 'Artist or Band Name'
+            'username' : 'Username'
         }
 
 

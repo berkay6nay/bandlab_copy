@@ -3,13 +3,16 @@
 {% block content %}
 
 
-<img src="{{ album.album_pic.url }}">
-<p>{{album.artist}}</p>
-<p>{{album.title}}</p>
-<p>{{album.genre}}</p>
-<p>{{album.label}}</p>
-<p>{{album.year}}</p>
-
+<div style="display: flex; align-items: center;">
+    <img src="{{ album.album_pic.url }}" style="width: 500px; height: 500px; margin-right: 20px;">
+    <div>
+        <p><strong>Artist:</strong> {{ album.artist.artistprofile.artist_name }}</p>
+        <p><strong>Title:</strong> {{ album.title }}</p>
+        <p><strong>Genre:</strong> {{ album.genre }}</p>
+        <p><strong>Label:</strong> {{ album.label }}</p>
+        <p><strong>Year:</strong> {{ album.year }}</p>
+    </div>
+</div>
 
 
 {% endblock content%}
