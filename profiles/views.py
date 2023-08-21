@@ -1,8 +1,9 @@
 from typing import Any, Dict
-from django.shortcuts import render , get_object_or_404
-from django.views.generic import TemplateView , DetailView , CreateView , UpdateView , DeleteView
-from django.urls import reverse_lazy
+from django.shortcuts import render , get_object_or_404 
+from django.views.generic import TemplateView , DetailView , CreateView , UpdateView , DeleteView 
+from django.urls import reverse_lazy , reverse
 from .models import ArtistProfile , Album , UserProfile
+from django.http import HttpResponseRedirect
 
 class HomePageView(TemplateView):
     template_name = "home.html"
@@ -41,6 +42,20 @@ class CreateArtistProfilePageView(CreateView):
 
 class AlbumPageView(DetailView):
     model = Album
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+
+        context = super(AlbumPageView , self).get_context_data()
+        user = self.request.user
+        album_artist = self.object.artist
+        user_wishlist = Album.objects.filter(wishlists = user)
+        context["user_wishlist"] = user_wishlist
+        context["album_artist"] = album_artist
+
+
+        return context
+
+
     template_name = "album_page.html"
 
 
@@ -115,6 +130,10 @@ class UserProfilePageView(DetailView):
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super(UserProfilePageView , self).get_context_data()
         page_user = get_object_or_404(UserProfile , id = self.kwargs["pk"])
+
+        wishlist_albums = Album.objects.filter(wishlists=page_user.user)
+        context["wishlist_albums"] = wishlist_albums
+
         context["page_user"] = page_user
         return context
     
@@ -128,4 +147,9 @@ class EditUserProfileView(UpdateView):
     ]
     template_name = "edit_user_profile.html"
     success_url = reverse_lazy("home")
+
+def WishlistView(request , pk):
+    album = get_object_or_404(Album , id = pk)
+    album.wishlists.add(request.user)
+    return HttpResponseRedirect(reverse("album_page" , args=[str(pk)]))
 # Create your views here.

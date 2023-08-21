@@ -8,6 +8,7 @@ class Album(models.Model):
     label = models.TextField(max_length= 30 , null=True , blank=True , editable=True)
     year = models.IntegerField(null=True , blank=True , editable=True)
     genre = models.CharField(max_length=30 , null=True , blank=True , editable=True)
+    wishlists = models.ManyToManyField(User , related_name="albums")
 
 
 class ArtistProfile(models.Model):

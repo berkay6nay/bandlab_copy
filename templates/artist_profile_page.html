@@ -32,8 +32,7 @@
             {% if user.artistprofile.id ==  artistprofile.id %}
             
             <a href="{% url 'edit_artist_profile' artistprofile.id %}"><p>Edit Your Profile</p></a>
-            <p>page_user_id = {{page_user.id}}</p>
-            <p>artistprofile_id = {{artistprofile.id}}</p>
+            
             <a href="{% url 'disco_detail' artistprofile.id %}">Edit Your Discography</a>
 
             {% endif %}

@@ -2,7 +2,7 @@ from django.urls import path
 from .views import (HomePageView , CreateArtistProfilePageView , ArtistProfilePageView , 
                     AlbumPageView , CreateAlbumView , EditArtistProfileView,DiscoDetailView,
                     EditAlbumView,DeleteAlbumView , CreateUserProfileView , UserProfilePageView,
-                    EditUserProfileView)
+                    EditUserProfileView , WishlistView)
 
 urlpatterns = [
     path("" , HomePageView.as_view() , name = "home"),
@@ -17,6 +17,7 @@ urlpatterns = [
     path("create_user_profile_page" ,CreateUserProfileView.as_view() , name = "create_user_profile_page"),
     path("user_profile_page/<int:pk>" , UserProfilePageView.as_view() , name = "user_profile_page"),
     path("edit_user_profile/<int:pk>" , EditUserProfileView.as_view() , name = "edit_user_profile"),
+    path("add_to_wishlist/<int:pk>" , WishlistView , name = "add_to_wishlist")
 
 
 ]

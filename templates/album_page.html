@@ -6,12 +6,31 @@
 <div style="display: flex; align-items: center;">
     <img src="{{ album.album_pic.url }}" style="width: 500px; height: 500px; margin-right: 20px;">
     <div>
-        <p><strong>Artist:</strong> {{ album.artist.artistprofile.artist_name }}</p>
+        <a href="{% url 'artist_profile_page' album_artist.artistprofile.id %}"><p><strong>Artist:</strong> {{ album.artist.artistprofile.artist_name }}</p></a>
         <p><strong>Title:</strong> {{ album.title }}</p>
         <p><strong>Genre:</strong> {{ album.genre }}</p>
         <p><strong>Label:</strong> {{ album.label }}</p>
         <p><strong>Year:</strong> {{ album.year }}</p>
     </div>
+    <hr>
+    {% if user.is_artist == False %}
+    
+    {% if album in user_wishlist %}
+
+    <button >In Wishlist</button>
+
+    {% else %}
+    
+    <form action="{% url 'add_to_wishlist' album.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit" name="album_id" value="{{ album.id }}">+Wishlist</button>
+    </form>
+
+    {% endif %}
+
+    {% endif %}
+
+
 </div>
 
 
