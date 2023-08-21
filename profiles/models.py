@@ -23,6 +23,8 @@ class UserProfile(models.Model):
     name = models.TextField(max_length=50)
     user = models.OneToOneField(User , on_delete=models.CASCADE , null=True)
     user_pic = models.ImageField(blank=True , null=True , upload_to="images/" , editable=True)
+    bio = models.TextField(blank=True , null=True  , max_length=1000 , editable=True)
+    location = models.TextField(blank=True , null= True , max_length=50 , editable=True)
     
 
 

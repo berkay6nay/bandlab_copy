@@ -10,7 +10,7 @@
                     <div class="col-md-4 mb-4">
                         {% if album.album_pic %}
                         <a href="{% url 'album_page' album.id %}">
-                            <img src="{{ album.album_pic.url }}" class="custom-image album-image" width="300" height="300" alt="{{ album.title }}">
+                            <img src="{{ album.album_pic.url }}" class="custom-image album-image" width="200" height="200" alt="{{ album.title }}">
                         </a>
                         {% endif %}
                         <a href="{% url 'album_page' album.id %}">

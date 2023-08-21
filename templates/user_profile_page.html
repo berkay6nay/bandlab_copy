@@ -2,7 +2,13 @@
 
 {% block content %}
 
-<p>{{userprofile.name}}</p>
+<p>{{page_user.user}}</p>
+<img src="{{ page_user.user_pic.url }}" style="width: 150px; height: 150px; margin-right: 20px;">
+<p>{{page_user.bio}}</p>
+
+{% if page_user.user.id == user.id %}
+<a href="{% url 'edit_user_profile' page_user.id %}"><p>Edit Profile</p></a>
+{% endif %}
 
 
 {% endblock content %}

@@ -94,7 +94,8 @@ class CreateUserProfileView(CreateView):
     model = UserProfile
 
     fields = [
-        "name",
+        
+        "bio",
         "user_pic"
     ]
 
@@ -110,5 +111,21 @@ class CreateUserProfileView(CreateView):
 class UserProfilePageView(DetailView):
     model = UserProfile
     template_name = "user_profile_page.html"
+    
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super(UserProfilePageView , self).get_context_data()
+        page_user = get_object_or_404(UserProfile , id = self.kwargs["pk"])
+        context["page_user"] = page_user
+        return context
+    
+class EditUserProfileView(UpdateView):
+    model = UserProfile
 
+    fields = [
+        "user_pic",
+        "bio",
+        "location",
+    ]
+    template_name = "edit_user_profile.html"
+    success_url = reverse_lazy("home")
 # Create your views here.
