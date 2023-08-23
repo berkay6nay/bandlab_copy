@@ -16,6 +16,7 @@ class ArtistProfile(models.Model):
     artist_bio = models.TextField(max_length=100 , editable=True)
     artist_name = models.TextField(max_length=50)
     artist_pic = models.ImageField(null=True , blank=True ,upload_to="images/" , editable=True)
+    follower = models.ManyToManyField(User , related_name="artists_follower")
 
     def __str__(self):
         return str(self.user)

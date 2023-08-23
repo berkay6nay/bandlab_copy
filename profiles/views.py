@@ -1,9 +1,9 @@
 from typing import Any, Dict
 from django.shortcuts import render , get_object_or_404 
-from django.views.generic import TemplateView , DetailView , CreateView , UpdateView , DeleteView 
+from django.views.generic import TemplateView , DetailView , CreateView , UpdateView , DeleteView , ListView
 from django.urls import reverse_lazy , reverse
 from .models import ArtistProfile , Album , UserProfile
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect 
 
 class HomePageView(TemplateView):
     template_name = "home.html"
@@ -18,9 +18,12 @@ class ArtistProfilePageView(DetailView):
         context = super(ArtistProfilePageView , self).get_context_data()
         page_user = get_object_or_404(ArtistProfile , id = self.kwargs["pk"])
         user = self.object.user
+        logged_in_user = self.request.user
         albums = Album.objects.filter(artist = user)
+        followed_artists = ArtistProfile.objects.filter(follower = logged_in_user)
         context["page_user"] = page_user
         context['albums'] = albums
+        context["followed_artists"] = followed_artists
         
         return context
 
@@ -130,10 +133,10 @@ class UserProfilePageView(DetailView):
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super(UserProfilePageView , self).get_context_data()
         page_user = get_object_or_404(UserProfile , id = self.kwargs["pk"])
-
         wishlist_albums = Album.objects.filter(wishlists=page_user.user)
+        followed_artists = ArtistProfile.objects.filter(follower = page_user.user)
         context["wishlist_albums"] = wishlist_albums
-
+        context["followed_artists"] = followed_artists
         context["page_user"] = page_user
         return context
     
@@ -152,4 +155,21 @@ def WishlistView(request , pk):
     album = get_object_or_404(Album , id = pk)
     album.wishlists.add(request.user)
     return HttpResponseRedirect(reverse("album_page" , args=[str(pk)]))
+
+class SearchResultsView(ListView):
+    context_object_name = 'results'
+    template_name = "search_results.html"
+    def get_queryset(self):  # new
+        query = self.request.GET.get("q")
+        album_list = Album.objects.filter(title__icontains = query)  if query else []
+        artist_list = ArtistProfile.objects.filter(artist_name__icontains = query) if query else []
+        return {
+            "albums" : album_list,
+            "artists" : artist_list,
+        }
+    
+def FollowerView(request , pk):
+    artist = get_object_or_404(ArtistProfile , id  = pk)
+    artist.follower.add(request.user)
+    return HttpResponseRedirect(reverse("artist_profile_page" , args=[str(pk)]))
 # Create your views here.

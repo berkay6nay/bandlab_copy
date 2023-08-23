@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Albums</h2>
+<hr>
+
+
+{% if results.albums %}
+{% for album in results.albums %}
+<a href="{% url 'album_page' album.id %}">
+    <img src="{{ album.album_pic.url }}" class="custom-image album-image" width="100" height="100" alt="{{ album.title }}">
+</a>
+<a href="{% url 'album_page' album.id %}">
+    <p class="album-title">{{ album.title }}</p>
+</a>
+{% endfor %}
+
+{% else %}
+<p>No albums  were found</p>
+{% endif %}
+
+<hr>
+
+<h2>Artists</h2>
+{% if results.artists %}
+{% for artistprofile in results.artists %}
+<a href="{% url 'artist_profile_page' artistprofile.id %}">
+    <img src="{{ artistprofile.artist_pic.url }}" class="custom-image artist-image" width="100" height="100" alt="{{ artistprofile.artist_name }}">
+</a>
+<a href="{% url 'artist_profile_page' artistprofile.id %}">
+    <p class="artist-name">{{ artistprofile.artist_name }}</p>
+</a>
+{% endfor %}
+
+{% else %}
+<p>No artists were found</p>
+
+{% endif %}
+
+
+
+<style>
+    .album-image {
+        width: 25%;
+        height: auto;
+        
+    }
+
+    .album-title {
+        margin-top: 10px;
+        font-weight: bold;
+    }
+
+    .artist-image {
+        width: 25%;
+        height: auto;
+        border-radius: 40%;
+    }
+
+    .artist-title {
+        margin-top: 10px;
+        font-weight: bold;
+    }
+</style>
+
+
+
+{% endblock content%}

@@ -29,6 +29,26 @@
             <p>{{ page_user.artist_name }}</p>
             <p>{{ page_user.artist_bio }}</p>
 
+            {% if user.is_artist == False %}
+
+            {% if artistprofile in followed_artists %}
+
+            
+            <button >Followed</button>
+            
+
+            {% else %}
+
+            <form action="{% url 'follow' page_user.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" name="follow" value="{{ page_user.id }}">+Follow</button>
+            </form>
+
+            {% endif %}
+
+            {% endif %}
+
+
             {% if user.artistprofile.id ==  artistprofile.id %}
             
             <a href="{% url 'edit_artist_profile' artistprofile.id %}"><p>Edit Your Profile</p></a>

@@ -31,6 +31,15 @@ crossorigin="anonymous">
     
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
+
+                    <li class="nav-item">
+                        <span class="nav-link">
+                            <form action="{% url 'search' %}" method="get" style="display: inline-block; width: 300px;">
+                                <input name="q" type="text" placeholder="Search for albums and artist" style="width: 100%;">
+                            </form>
+                        </span>
+                    </li>
+
                     {% if user.is_authenticated %}
                         
                         <li class="nav-item">
