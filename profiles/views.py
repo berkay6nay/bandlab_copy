@@ -52,8 +52,10 @@ class AlbumPageView(DetailView):
         user = self.request.user
         album_artist = self.object.artist
         user_wishlist = Album.objects.filter(wishlists = user)
+        user_bought = Album.objects.filter(buyed = user)
         context["user_wishlist"] = user_wishlist
         context["album_artist"] = album_artist
+        context["user_bought"] = user_bought
 
 
         return context
@@ -67,7 +69,7 @@ class CreateAlbumView(CreateView):
     template_name = "create_album.html"
     success_url = reverse_lazy("home")
 
-    fields = ["album_pic" , "title" , "label" , "year" , "genre"]
+    fields = ["album_pic" , "title" , "label" , "year" , "genre" , "preview_song"]
 
     def form_valid(self , form):
         form.instance.artist = self.request.user
@@ -100,7 +102,7 @@ class DiscoDetailView(DetailView):
 class EditAlbumView(UpdateView):
     model = Album
     template_name = "edit_album.html"
-    fields = ["album_pic" , "title" , "label" , "year" , "genre"]
+    fields = ["album_pic" , "title" , "label" , "year" , "genre" , "preview_song"]
     success_url = reverse_lazy("home")
 
 class DeleteAlbumView(DeleteView):
@@ -114,7 +116,8 @@ class CreateUserProfileView(CreateView):
     fields = [
         
         "bio",
-        "user_pic"
+        "user_pic",
+        "location"
     ]
 
     def form_valid(self, form):
@@ -135,8 +138,10 @@ class UserProfilePageView(DetailView):
         page_user = get_object_or_404(UserProfile , id = self.kwargs["pk"])
         wishlist_albums = Album.objects.filter(wishlists=page_user.user)
         followed_artists = ArtistProfile.objects.filter(follower = page_user.user)
+        bought_albums = Album.objects.filter(buyed = page_user.user)
         context["wishlist_albums"] = wishlist_albums
         context["followed_artists"] = followed_artists
+        context["bought_albums"] = bought_albums
         context["page_user"] = page_user
         return context
     
@@ -172,4 +177,10 @@ def FollowerView(request , pk):
     artist = get_object_or_404(ArtistProfile , id  = pk)
     artist.follower.add(request.user)
     return HttpResponseRedirect(reverse("artist_profile_page" , args=[str(pk)]))
+
+def BuyView(request , pk):
+    album = get_object_or_404(Album , id = pk)
+    album.buyed.add(request.user)
+
+    return HttpResponseRedirect(reverse("album_page" , args=[str(pk)]))
 # Create your views here.

@@ -2,11 +2,12 @@ from django.urls import path
 from .views import (HomePageView , CreateArtistProfilePageView , ArtistProfilePageView , 
                     AlbumPageView , CreateAlbumView , EditArtistProfileView,DiscoDetailView,
                     EditAlbumView,DeleteAlbumView , CreateUserProfileView , UserProfilePageView,
-                    EditUserProfileView , WishlistView , SearchResultsView , FollowerView)
+                    EditUserProfileView , WishlistView , SearchResultsView , FollowerView , BuyView)
 
 urlpatterns = [
     path("" , HomePageView.as_view() , name = "home"),
     path("search/" , SearchResultsView.as_view() , name="search" ),
+    path("buy/<int:pk>", BuyView , name="buy_album"),
     path("follow/<int:pk>" , FollowerView , name = "follow" ),
     path("artist_profile_page/<int:pk>" , ArtistProfilePageView.as_view() , name = "artist_profile_page"),
     path("create_artist_profile_page" , CreateArtistProfilePageView.as_view() , name = "create_artist_profile_page"),

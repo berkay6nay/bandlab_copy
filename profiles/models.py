@@ -8,7 +8,9 @@ class Album(models.Model):
     label = models.TextField(max_length= 30 , null=True , blank=True , editable=True)
     year = models.IntegerField(null=True , blank=True , editable=True)
     genre = models.CharField(max_length=30 , null=True , blank=True , editable=True)
+    preview_song = models.FileField(blank=True , null= True , upload_to="audio/" , editable=True)
     wishlists = models.ManyToManyField(User , related_name="albums")
+    buyed = models.ManyToManyField(User , related_name="album_buy")
 
 
 class ArtistProfile(models.Model):
@@ -27,6 +29,9 @@ class UserProfile(models.Model):
     user_pic = models.ImageField(blank=True , null=True , upload_to="images/" , editable=True)
     bio = models.TextField(blank=True , null=True  , max_length=1000 , editable=True)
     location = models.TextField(blank=True , null= True , max_length=50 , editable=True)
+
+
+
     
 
 

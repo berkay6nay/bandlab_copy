@@ -5,12 +5,44 @@
 
 <div style="display: flex; align-items: center;">
     <img src="{{ album.album_pic.url }}" style="width: 500px; height: 500px; margin-right: 20px;">
+    
+   
+
     <div>
         <a href="{% url 'artist_profile_page' album_artist.artistprofile.id %}"><p><strong>Artist:</strong> {{ album.artist.artistprofile.artist_name }}</p></a>
         <p><strong>Title:</strong> {{ album.title }}</p>
         <p><strong>Genre:</strong> {{ album.genre }}</p>
         <p><strong>Label:</strong> {{ album.label }}</p>
         <p><strong>Year:</strong> {{ album.year }}</p>
+
+        
+        {% if album.preview_song %}
+        <p><strong>Listen To The Preview Track:</p>
+        <audio controls>
+            <source src="{{album.preview_song.url}}" type="audio/ogg">
+            <source src="{{album.preview_song.url}}" type="audio/mpeg">
+          Your browser does not support the audio element.
+          </audio>
+         {% endif %}
+
+
+          {% if user.is_artist == False %}
+          
+        {% if album  not in user_bought %}
+
+        <form action="{% url 'buy_album' album.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" name="buy_album" value="{{ album.id }}">Buy A Digital Copy</button>
+        </form>
+    
+        {% else %}
+    
+        <p><strong>In Your Library</strong></p>
+    
+        {% endif %}
+    
+            {% endif %}
+
     </div>
     <hr>
     {% if user.is_artist == False %}

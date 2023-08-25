@@ -49,7 +49,25 @@
         </div>
     {% endfor %}
 </div>
-
+{% if user == page_user.user %}
+<hr>
+<h2>Your Library</h2>
+<div class="row">
+    {% for album in bought_albums %}
+        <div class="col-md-4 mb-4">
+            {% if album.album_pic %}
+            <a href="{% url 'album_page' album.id %}">
+                <img src="{{ album.album_pic.url }}" class="custom-image album-image" width="100" height="100" alt="{{ album.title }}">
+            </a>
+            {% endif %}
+            <a href="{% url 'album_page' album.id %}">
+                <p class="album-title">{{ album.title }}</p>
+            </a>
+            
+        </div>
+    {% endfor %}
+</div>
+{% endif %}
 
 <style>
     .album-image {
