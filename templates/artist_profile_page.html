@@ -33,8 +33,14 @@
 
             {% if artistprofile in followed_artists %}
 
+            <form action="{% url 'unfollow' page_user.id %}">
+                {% csrf_token %}
+                <button type = "submit" name="unfollow" value="{{page_user.id}}">-Unfollow</button>
+
+            </form>
+
             
-            <button >Followed</button>
+            
             
 
             {% else %}

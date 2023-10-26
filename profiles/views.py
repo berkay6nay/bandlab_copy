@@ -161,6 +161,11 @@ def WishlistView(request , pk):
     album.wishlists.add(request.user)
     return HttpResponseRedirect(reverse("album_page" , args=[str(pk)]))
 
+def UnWishlistView(request , pk):
+    album = get_object_or_404(Album , id = pk)
+    album.wishlists.remove(request.user)
+    return HttpResponseRedirect(reverse("album_page" , args=[str(pk)]))
+
 class SearchResultsView(ListView):
     context_object_name = 'results'
     template_name = "search_results.html"
@@ -177,6 +182,13 @@ def FollowerView(request , pk):
     artist = get_object_or_404(ArtistProfile , id  = pk)
     artist.follower.add(request.user)
     return HttpResponseRedirect(reverse("artist_profile_page" , args=[str(pk)]))
+
+def UnFollowerView(request , pk):
+    artist = get_object_or_404(ArtistProfile , id = pk)
+    artist.follower.remove(request.user)
+
+    return HttpResponseRedirect(reverse("artist_profile_page" , args=[str(pk)]))
+
 
 def BuyView(request , pk):
     album = get_object_or_404(Album , id = pk)

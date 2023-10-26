@@ -49,7 +49,12 @@
     
     {% if album in user_wishlist %}
 
-    <button >In Wishlist</button>
+    <form action="{% url 'remove_wish_list' album.id %}">
+        {% csrf_token %}
+        <button type = "submit" name="album_id" value="{{album.id}}">-Wishlist</button>
+    </form>
+
+    
 
     {% else %}
     
