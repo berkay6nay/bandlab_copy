@@ -1,4 +1,5 @@
 from typing import Any, Dict
+from django.db import models
 from django.shortcuts import render , get_object_or_404 
 from django.views.generic import TemplateView , DetailView , CreateView , UpdateView , DeleteView , ListView
 from django.urls import reverse_lazy , reverse
@@ -6,6 +7,17 @@ from .models import ArtistProfile , Album , UserProfile
 from django.http import HttpResponseRedirect 
 
 class HomePageView(TemplateView):
+    
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+            
+        context = super(HomePageView,self).get_context_data()
+        num_of_albums = Album.objects.count()
+        num_of_artists = ArtistProfile.objects.count()
+        context["num_of_albums"] = num_of_albums
+        context["num_of_artists"] = num_of_artists
+        return context
+    
+
     template_name = "home.html"
 
 
@@ -28,13 +40,13 @@ class ArtistProfilePageView(DetailView):
         return context
 
 class CreateArtistProfilePageView(CreateView):
-    model = ArtistProfile
+    model = ArtistProfile       
     template_name = "create_artist_profile_page.html"
 
     fields = [
         "artist_name",
-        "artist_pic",
-        "artist_bio",
+        "artist_pic",           
+        "artist_bio",           
         ]
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -80,7 +92,15 @@ class EditArtistProfileView(UpdateView):
     model  = ArtistProfile
     template_name = "edit_artist_profile.html"
     fields = ["artist_bio" , "artist_pic"]
-    success_url = reverse_lazy("home")
+
+    def get_object(self, queryset = None):
+        return get_object_or_404(ArtistProfile , user = self.request.user)
+    
+    def get_success_url(self) -> str:
+        return reverse("artist_profile_page" , kwargs={"pk" : self.object.pk})
+
+    
+    
 
 
 class DiscoDetailView(DetailView):
@@ -101,14 +121,24 @@ class DiscoDetailView(DetailView):
     
 class EditAlbumView(UpdateView):
     model = Album
-    template_name = "edit_album.html"
+    template_name = "edit_album.html" ##Reverse lazy must be reimplemented.
     fields = ["album_pic" , "title" , "label" , "year" , "genre" , "preview_song"]
-    success_url = reverse_lazy("home")
+
+    def get_object(self, queryset = None) :
+        
+        return get_object_or_404(Album , id = self.kwargs["pk"])
+     
+    def get_success_url(self) -> str:
+        return reverse("album_page" , kwargs={"pk" : self.object.pk})
+
+    
 
 class DeleteAlbumView(DeleteView):
     model = Album
     template_name = "delete_album.html"
-    success_url = reverse_lazy("home")
+    succes_url = reverse_lazy("home")
+ 
+    
 
 class CreateUserProfileView(CreateView):
     model = UserProfile

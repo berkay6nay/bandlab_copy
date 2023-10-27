@@ -42,9 +42,7 @@ crossorigin="anonymous">
 
                     {% if user.is_authenticated %}
                         
-                        <li class="nav-item">
-                            <span class="nav-link">Is artist? {{ user.is_artist }}</span>
-                        </li>
+                        
                         
                         {% if user.is_artist %}
                         <li class="nav-item">
