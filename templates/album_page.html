@@ -47,6 +47,11 @@
     <hr>
     {% if user.is_artist == False %}
     
+    {% if album in user_bought %}
+    
+    
+    {% else %}
+    
     {% if album in user_wishlist %}
 
     <form action="{% url 'remove_wish_list' album.id %}">
@@ -64,6 +69,10 @@
     </form>
 
     {% endif %}
+    
+    {% endif %}
+
+    
 
     {% endif %}
 

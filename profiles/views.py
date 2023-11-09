@@ -5,6 +5,7 @@ from django.views.generic import TemplateView , DetailView , CreateView , Update
 from django.urls import reverse_lazy , reverse
 from .models import ArtistProfile , Album , UserProfile
 from django.http import HttpResponseRedirect 
+from user.models import User
 
 class HomePageView(TemplateView):
     
@@ -33,7 +34,9 @@ class ArtistProfilePageView(DetailView):
         logged_in_user = self.request.user
         albums = Album.objects.filter(artist = user)
         followed_artists = ArtistProfile.objects.filter(follower = logged_in_user)
+        supporters = User.objects.filter(album_buy__in=albums).distinct()
         context["page_user"] = page_user
+        context["supporters"] = supporters
         context['albums'] = albums
         context["followed_artists"] = followed_artists
         
@@ -223,6 +226,7 @@ def UnFollowerView(request , pk):
 def BuyView(request , pk):
     album = get_object_or_404(Album , id = pk)
     album.buyed.add(request.user)
+    album.wishlists.remove(request.user)
 
     return HttpResponseRedirect(reverse("album_page" , args=[str(pk)]))
 # Create your views here.
