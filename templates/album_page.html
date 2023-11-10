@@ -1,83 +1,92 @@
 {% extends "base.html" %}
 
 {% block content %}
+<style>
+    .album-container {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 20px;
+    }
 
+    .album-info {
+        margin-left: 20px;
+    }
 
-<div style="display: flex; align-items: center;">
-    <img src="{{ album.album_pic.url }}" style="width: 500px; height: 500px; margin-right: 20px;">
+    .comments-section {
+        margin-top: 20px;
+        padding: 20px;
+        background-color: #f8f8f8;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .comments-heading {
+        font-size: 24px;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    .add-comment-link {
+        text-decoration: none;
+        color: #007bff;
+        font-weight: bold;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    .comment {
+        margin-bottom: 15px;
+    }
+
     
-   
+</style>
 
-    <div>
+<div class="album-container">
+    <img src="{{ album.album_pic.url }}" style="width: 500px; height: 500px; margin-right: 20px;">
+
+    <div class="album-info">
         <a href="{% url 'artist_profile_page' album_artist.artistprofile.id %}"><p><strong>Artist:</strong> {{ album.artist.artistprofile.artist_name }}</p></a>
         <p><strong>Title:</strong> {{ album.title }}</p>
         <p><strong>Genre:</strong> {{ album.genre }}</p>
         <p><strong>Label:</strong> {{ album.label }}</p>
         <p><strong>Year:</strong> {{ album.year }}</p>
 
-        
         {% if album.preview_song %}
-        <p><strong>Listen To The Preview Track:</p>
+        <p><strong>Listen To The Preview Track:</strong></p>
         <audio controls>
             <source src="{{album.preview_song.url}}" type="audio/ogg">
             <source src="{{album.preview_song.url}}" type="audio/mpeg">
-          Your browser does not support the audio element.
-          </audio>
-         {% endif %}
-
-
-          {% if user.is_artist == False %}
-          
-        {% if album  not in user_bought %}
-
-        <form action="{% url 'buy_album' album.id %}" method="post">
-            {% csrf_token %}
-            <button type="submit" name="buy_album" value="{{ album.id }}">Buy A Digital Copy</button>
-        </form>
-    
-        {% else %}
-    
-        <p><strong>In Your Library</strong></p>
-    
+            Your browser does not support the audio element.
+        </audio>
         {% endif %}
-    
+
+        {% if user.is_artist == False %}
+            {% if album not in user_bought %}
+                <form action="{% url 'buy_album' album.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" name="buy_album" value="{{ album.id }}">Buy A Digital Copy</button>
+                </form>
+            {% else %}
+                <p><strong>In Your Library</strong></p>
             {% endif %}
+        {% endif %}
 
+        <hr>
     </div>
-    <hr>
-    {% if user.is_artist == False %}
-    
-    {% if album in user_bought %}
-    
-    
-    {% else %}
-    
-    {% if album in user_wishlist %}
-
-    <form action="{% url 'remove_wish_list' album.id %}">
-        {% csrf_token %}
-        <button type = "submit" name="album_id" value="{{album.id}}">-Wishlist</button>
-    </form>
-
-    
-
-    {% else %}
-    
-    <form action="{% url 'add_to_wishlist' album.id %}" method="post">
-        {% csrf_token %}
-        <button type="submit" name="album_id" value="{{ album.id }}">+Wishlist</button>
-    </form>
-
-    {% endif %}
-    
-    {% endif %}
-
-    
-
-    {% endif %}
-
-
 </div>
 
+<div class="comments-section">
+    <h2 class="comments-heading">Comments</h2>
+    <a href="{% url 'make_comment' album.id %}" class="add-comment-link">Add a comment</a>
+    <br>
+
+    {% for comment in album.comments.all %}
+        <div class="comment">
+            <p>{{comment.user.userprofile.bio}}</p>
+            <p> {{comment.name}} says:</p>
+            {{comment.body}}
+        </div>
+    {% endfor %}
+</div>
 
 {% endblock content%}

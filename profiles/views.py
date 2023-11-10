@@ -1,10 +1,11 @@
 from typing import Any, Dict
 from django.db import models
+from django.forms.models import BaseModelForm
 from django.shortcuts import render , get_object_or_404 
 from django.views.generic import TemplateView , DetailView , CreateView , UpdateView , DeleteView , ListView
 from django.urls import reverse_lazy , reverse
-from .models import ArtistProfile , Album , UserProfile
-from django.http import HttpResponseRedirect 
+from .models import ArtistProfile , Album , UserProfile ,Comment
+from django.http import HttpResponse, HttpResponseRedirect 
 from user.models import User
 
 class HomePageView(TemplateView):
@@ -68,6 +69,7 @@ class AlbumPageView(DetailView):
         album_artist = self.object.artist
         user_wishlist = Album.objects.filter(wishlists = user)
         user_bought = Album.objects.filter(buyed = user)
+        
         context["user_wishlist"] = user_wishlist
         context["album_artist"] = album_artist
         context["user_bought"] = user_bought
@@ -229,4 +231,19 @@ def BuyView(request , pk):
     album.wishlists.remove(request.user)
 
     return HttpResponseRedirect(reverse("album_page" , args=[str(pk)]))
+
+class MakeCommentView(CreateView):
+    model = Comment
+    fields = ["body"]
+    template_name = "add_comment.html"
+
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+        form.instance.user = self.request.user
+        form.instance.name = self.request.user.username
+        form.instance.album_id = self.kwargs["pk"]
+        return super().form_valid(form)
+    
+    success_url = reverse_lazy("home")
+
+    
 # Create your views here.

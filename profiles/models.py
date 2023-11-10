@@ -31,8 +31,11 @@ class UserProfile(models.Model):
     location = models.TextField(blank=True , null= True , max_length=50 , editable=True)
 
 
+class Comment(models.Model):
+    album = models.ForeignKey(Album,related_name="comments", on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    body = models.TextField()
 
-    
 
 
 
