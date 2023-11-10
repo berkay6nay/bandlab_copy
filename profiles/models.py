@@ -32,6 +32,7 @@ class UserProfile(models.Model):
 
 
 class Comment(models.Model):
+    user = models.ForeignKey(User , on_delete=models.CASCADE ,default=1)
     album = models.ForeignKey(Album,related_name="comments", on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     body = models.TextField()

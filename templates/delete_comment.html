@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<style>
+    .delete-form-container {
+        text-align: center;
+        margin-top: 50px;  
+    }
+
+    .delete-form {
+        max-width: 400px;
+        margin: 0 auto;  
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .delete-form p {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+
+    .delete-form button {
+        background-color: #dc3545;  
+        color: #fff;
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+</style>
+
+<div class="delete-form-container">
+    <form method="post" class="delete-form">
+        <p>You are about to delete your "{{ comment.body }}" comment to the album {{ comment.album.title }}</p>
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit">Confirm</button>
+        
+    </form>
+</div>
+
+
+
+
+
+
+
+
+
+{% endblock content %}

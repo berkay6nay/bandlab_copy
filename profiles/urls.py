@@ -3,7 +3,7 @@ from .views import (HomePageView , CreateArtistProfilePageView , ArtistProfilePa
                     AlbumPageView , CreateAlbumView , EditArtistProfileView,DiscoDetailView,
                     EditAlbumView,DeleteAlbumView , CreateUserProfileView , UserProfilePageView,
                     EditUserProfileView , WishlistView , SearchResultsView , FollowerView ,  UnFollowerView , 
-                    BuyView , UnWishlistView , MakeCommentView)
+                    BuyView , UnWishlistView , MakeCommentView , DeleteCommentView)
 
 urlpatterns = [
     path("" , HomePageView.as_view() , name = "home"),
@@ -24,7 +24,9 @@ urlpatterns = [
     path("edit_user_profile/<int:pk>" , EditUserProfileView.as_view() , name = "edit_user_profile"),
     path("add_to_wishlist/<int:pk>" , WishlistView , name = "add_to_wishlist"),
     path("remove_wish_list/<int:pk>" , UnWishlistView , name = "remove_wish_list"),
-    path("album/<int:pk>/comment", MakeCommentView.as_view() , name = "make_comment") 
+    path("album/<int:pk>/comment", MakeCommentView.as_view() , name = "make_comment"),
+    path("delete_comment/<int:pk>", DeleteCommentView.as_view() , name = "delete_comment" )
+    
 
 
 ]

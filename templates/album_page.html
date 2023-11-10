@@ -78,15 +78,24 @@
 <div class="comments-section">
     <h2 class="comments-heading">Comments</h2>
     <a href="{% url 'make_comment' album.id %}" class="add-comment-link">Add a comment</a>
-    <br>
-
+    <hr>
     {% for comment in album.comments.all %}
         <div class="comment">
-            <p>{{comment.user.userprofile.bio}}</p>
+            <a href="{% url 'user_profile_page' comment.user.userprofile.id %}"><img src="{{ comment.user.userprofile.user_pic.url}}" style="width: 50px; height: 50px;"></a>
             <p> {{comment.name}} says:</p>
             {{comment.body}}
+
+            {% if comment.user == user %}
+            <a href="{% url 'delete_comment' comment.id %}">-Delete This Comment</a>
+            {% endif %}
+
+
+            <hr>
         </div>
     {% endfor %}
 </div>
+
+
+
 
 {% endblock content%}
