@@ -10,6 +10,7 @@
 
     .album-info {
         margin-left: 20px;
+        margin-top: 50px; 
     }
 
     .comments-section {
@@ -39,6 +40,15 @@
     }
 
     
+    .album-info p {
+        margin-bottom: 10px;
+    }
+
+    .album-info hr {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
 </style>
 
 <div class="album-container">
@@ -77,7 +87,9 @@
 
 <div class="comments-section">
     <h2 class="comments-heading">Comments</h2>
+    {% if user.is_artist == False %}
     <a href="{% url 'make_comment' album.id %}" class="add-comment-link">Add a comment</a>
+    {% endif %}
     <hr>
     {% for comment in album.comments.all %}
         <div class="comment">

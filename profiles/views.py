@@ -91,6 +91,11 @@ class CreateAlbumView(CreateView):
     def form_valid(self , form):
         form.instance.artist = self.request.user
         return super().form_valid(form)
+
+    def get_success_url(self) -> str:
+        user = self.request.user
+        return reverse("artist_profile_page", args=[str(user.artistprofile.id)])
+        
     
 
 class EditArtistProfileView(UpdateView):
@@ -141,7 +146,10 @@ class EditAlbumView(UpdateView):
 class DeleteAlbumView(DeleteView):
     model = Album
     template_name = "delete_album.html"
-    succes_url = reverse_lazy("home")
+    
+    def get_success_url(self) -> str:
+        user = self.request.user
+        return reverse("artist_profile_page" , args=[str(user.artistprofile.id)])
  
     
 
