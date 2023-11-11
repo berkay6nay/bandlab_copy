@@ -26,6 +26,7 @@ urlpatterns = [
     path("remove_wish_list/<int:pk>" , UnWishlistView , name = "remove_wish_list"),
     path("album/<int:pk>/comment", MakeCommentView.as_view() , name = "make_comment"),
     path("delete_comment/<int:pk>", DeleteCommentView.as_view() , name = "delete_comment" )
+
     
 
 

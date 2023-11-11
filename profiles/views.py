@@ -249,6 +249,11 @@ class MakeCommentView(CreateView):
 class DeleteCommentView(DeleteView):
     model = Comment
     template_name = "delete_comment.html"
-    success_url = reverse_lazy("home")
+    
+
+    def get_success_url(self) -> str:
+        album = self.object.album
+        return  reverse('album_page' , args = [str(album.id)])
+        
     
 # Create your views here.
